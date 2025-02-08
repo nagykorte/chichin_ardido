@@ -126,7 +126,24 @@ const links = [
 const IndexPage = () => {
   return (
     <main style={pageStyles}>
-      chichin tiene el ano ardido porque JS es una masa
+      <h1 style={{ 
+        fontFamily: 'Impact, Charcoal, sans-serif', 
+        fontSize: '3rem', 
+        color: '#ff6347', 
+        textShadow: '2px 2px #000000', 
+        transformStyle: 'preserve-3d', 
+        animation: 'rotate 3s infinite alternate' 
+      }}>
+        chichin tiene el ano ardido porque JS es una masa
+      </h1>
+      <style>
+        {`
+          @keyframes rotate {
+        0% { transform: rotateY(0deg); }
+        100% { transform: rotateY(360deg); }
+          }
+        `}
+      </style>
     </main>
   )
 }
