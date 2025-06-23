@@ -125,7 +125,10 @@ const links = [
 
 const IndexPage = () => {
   let log = "";
-  let videoRef = document.getElementById('myVideo');
+  let videoRef = { current: null };
+  setTimeout(() => {
+    videoRef.current = document.getElementById('video');
+  }, 0);
 
   // Camera logic without React hooks
   function enableCamera() {
