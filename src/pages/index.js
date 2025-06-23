@@ -124,6 +124,28 @@ const links = [
 ]
 
 const IndexPage = () => {
+  const [log, setLog] = React.useState("");
+  const videoRef = React.useRef(null);
+
+  React.useEffect(() => {
+    async function enableCamera() {
+      try {
+        setLog("Requesting camera access...");
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user" },
+          audio: false,
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          setLog("Camera stream started.");
+        }
+      } catch (err) {
+        setLog("Error accessing camera: " + err.message);
+      }
+    }
+    enableCamera();
+  }, []);
+
   return (
     <main style={pageStyles}>
       <h1 style={{ 
@@ -136,6 +158,36 @@ const IndexPage = () => {
       }}>
         chichin tiene el ano ardido porque JS es una masa
       </h1>
+      <div style={{ marginBottom: 24 }}>
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          style={{
+            width: 240,
+            height: 180,
+            borderRadius: 12,
+            border: "2px solid #663399",
+            background: "#222",
+            display: "block",
+            marginBottom: 8,
+          }}
+        />
+        <div
+          style={{
+            minHeight: 24,
+            color: "#333",
+            background: "#f7f7f7",
+            borderRadius: 6,
+            padding: "6px 12px",
+            fontSize: 14,
+            fontFamily: "monospace",
+          }}
+        >
+          {log}
+        </div>
+      </div>
       <style>
         {`
           @keyframes rotate {
