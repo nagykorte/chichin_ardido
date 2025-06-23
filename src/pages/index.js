@@ -124,26 +124,37 @@ const links = [
 ]
 
 const IndexPage = () => {
-  const [log, setLog] = React.useState("");
-  const videoRef = React.useRef(null);
+  let log = "";
+  let videoRef = React.createRef();
 
-  React.useEffect(() => {
-    async function enableCamera() {
-      try {
-        setLog("Requesting camera access...");
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "user" },
-          audio: false,
-        });
+  // Camera logic without React hooks
+  function enableCamera() {
+    log = "Requesting camera access...";
+    if (videoRef.current) {
+      videoRef.current.nextSibling.textContent = log;
+    }
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user" },
+      audio: false,
+    })
+      .then((stream) => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          setLog("Camera stream started.");
+          log = "Camera stream started.";
+          videoRef.current.nextSibling.textContent = log;
         }
-      } catch (err) {
-        setLog("Error accessing camera: " + err.message);
-      }
-    }
+      })
+      .catch((err) => {
+        log = "Error accessing camera: " + err.message;
+        if (videoRef.current) {
+          videoRef.current.nextSibling.textContent = log;
+        }
+      });
+  }
+
+  React.useEffect(() => {
     enableCamera();
+    // eslint-disable-next-line
   }, []);
 
   return (
