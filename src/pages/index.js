@@ -125,7 +125,7 @@ const links = [
 
 const IndexPage = () => {
   let log = "";
-  let videoRef = React.createRef();
+  let videoRef = document.getElementById('myVideo');
 
   // Camera logic without React hooks
   function enableCamera() {
@@ -171,8 +171,8 @@ const IndexPage = () => {
       </h1>
       <div style={{ marginBottom: 24 }}>
         <video
-          ref={videoRef}
           autoPlay
+          id="video"
           playsInline
           muted
           style={{
